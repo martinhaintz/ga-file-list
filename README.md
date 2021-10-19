@@ -33,6 +33,42 @@ The list of files names without file extension as json
 uses: the-coding-turtle/ga-file-list@v0.1
 ```
 
+## Matrix Build / Multi-Tenancy for Google AppEngine (My use case)
+```
+name: Multi Tenant GAE Deploy
+
+on:
+  push:  
+  workflow_dispatch:
+
+jobs:
+  lookup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filelist.outputs.file_names }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get all yaml files
+      id: filelist
+      uses: the-coding-turtle/ga-file-list@v0.1
+      with:
+        directory: "gae_yaml"
+        file_extension: "yaml"
+        
+  multi_tenant:
+    needs: lookup
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tenant: ${{fromJson(needs.lookup.outputs.matrix)}}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Show all tenants
+      run: |
+        echo "this is tenant: ${{ matrix.TENANT }}"
+```
+
+
 ```yaml
 uses: the-coding-turtle/ga-file-list@v0.1
 with:
