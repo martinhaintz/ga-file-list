@@ -33,6 +33,7 @@ The list of files names without file extension as json
 uses: the-coding-turtle/ga-file-list@v0.1
 ```
 
+Or with optional parameters:
 
 ```yaml
 uses: the-coding-turtle/ga-file-list@v0.1
