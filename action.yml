@@ -1,0 +1,19 @@
+name: 'List'
+description: 'lists all config files'
+inputs:
+  directory:
+    description: 'directory to look through'
+    required: false
+    default: ''
+  file_extension:
+    description: 'file extension filter. (e.g., "txt","yml")'
+    required: false
+    default: ''
+outputs:
+  files: # output will be available to future steps
+    description: 'All files as json list'
+  file_names: # output will be available to future steps
+    description: 'All file names without extension as json list'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
