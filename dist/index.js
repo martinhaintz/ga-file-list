@@ -1555,23 +1555,6 @@ exports.debug = debug; // for test
 
 /***/ }),
 
-/***/ 258:
-/***/ ((module) => {
-
-let wait = function (milliseconds) {
-  return new Promise((resolve) => {
-    if (typeof milliseconds !== 'number') {
-      throw new Error('milliseconds not a number');
-    }
-    setTimeout(() => resolve("done!"), milliseconds)
-  });
-};
-
-module.exports = wait;
-
-
-/***/ }),
-
 /***/ 357:
 /***/ ((module) => {
 
@@ -1694,23 +1677,32 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 const core = __nccwpck_require__(186);
-const wait = __nccwpck_require__(258);
+const fs = __nccwpck_require__(747)
+const path = __nccwpck_require__(622);
 
-
-// most @actions toolkit packages have async methods
 async function run() {
-  try {
-    const ms = core.getInput('milliseconds');
-    core.info(`Waiting ${ms} milliseconds ...`);
+    try {
+        let dir = core.getInput('directory', { required: false });
+        let fileExtension = core.getInput('file_extension', { required: false }).toLowerCase();
+        dir = "./".concat(dir)
 
-    core.debug((new Date()).toTimeString()); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-    await wait(parseInt(ms));
-    core.info((new Date()).toTimeString());
+        let content = fs.readdirSync(dir, { withFileTypes: true });
+        let files = content.filter(currentElement => currentElement.isFile())
+            .map(file => file.name);
 
-    core.setOutput('time', new Date().toTimeString());
-  } catch (error) {
-    core.setFailed(error.message);
-  }
+        if (fileExtension)
+            files = files.filter(currentFile => currentFile.toLowerCase().endsWith(`.${fileExtension}`))
+
+        let fileNames = files.map(file => path.parse(`${dir}/${file}`).name);
+
+        let filesJsonString = JSON.stringify(files)
+        let fileNamesJsonString = JSON.stringify(fileNames)
+
+        core.setOutput('files', filesJsonString);
+        core.setOutput('file_names', fileNamesJsonString);
+    } catch (error) {
+        core.setFailed(error.message);
+    }
 }
 
 run();
