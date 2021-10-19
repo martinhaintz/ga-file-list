@@ -15,7 +15,7 @@ This json can be later used for a dynamic build matrix.
 
 ## `file_extension`
 
-**Optional** File extension. (e.g., "txt","yml")
+**Optional** File extension filter. (e.g., "txt","yml")
 
 ## Outputs
 
