@@ -1,7 +1,7 @@
 # Lists all Files (in optional Subdirectory)
 
 <p align="center">
-  <a href="https://github.com/actions/javascript-action/actions"><img alt="javscript-action status" src="https://github.com/actions/javascript-action/workflows/units-test/badge.svg"></a>
+  <a href="https://github.com/the-coding-turtle/ga-file-list/actions"><img alt="javscript-action status" src="https://github.com/the-coding-turtle/ga-file-list/actions/workflows/test.yml/badge.svg"></a>
 </p>
 
 This small and simple plugin lists all files of a directory and returns the output as json.
