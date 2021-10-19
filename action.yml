@@ -1,4 +1,4 @@
-name: 'List'
+name: 'FileList'
 description: 'lists all config files'
 inputs:
   directory:
