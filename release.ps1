@@ -1,6 +1,3 @@
-# if ($args.count -eq 0) {
-#     write-host "Specify release as argument"
-# }
 Param(
     [Parameter(Mandatory=$true)] 
     [string]$version
@@ -11,4 +8,4 @@ cmd.exe /c git add dist
 cmd.exe /c git checkout -b $($version)
 git commit -m "$($version) release"
 git tag -a -m "$($version) release" "$($version)"
-git push origin $($version) --follow-tags
+git push --atomic origin refs/heads/$($version):refs/heads/$($version)
