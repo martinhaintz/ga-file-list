@@ -1683,20 +1683,29 @@ const path = __nccwpck_require__(622);
 async function run() {
     try {
         let dir = core.getInput('directory', { required: false });
-        let fileExtension = core.getInput('file_extension', { required: false }).toLowerCase();
+        const fileExtension = core.getInput('file_extension', { required: false }).toLowerCase();
+        const ignoreStartsWith = core.getInput('ignore_files_starts_with', { required: false });
+        const ignoreStartsWithDelimiter = core.getInput('ignore_files_starts_with_delimiter', { required: false });
         dir = "./".concat(dir)
 
-        let content = fs.readdirSync(dir, { withFileTypes: true });
+        const content = fs.readdirSync(dir, { withFileTypes: true });
         let files = content.filter(currentElement => currentElement.isFile())
             .map(file => file.name);
 
         if (fileExtension)
             files = files.filter(currentFile => currentFile.toLowerCase().endsWith(`.${fileExtension}`))
 
-        let fileNames = files.map(file => path.parse(`${dir}/${file}`).name);
+        if (ignoreStartsWith) {
+            const ignoreList = ignoreStartsWith.split(ignoreStartsWithDelimiter)
+            ignoreList.forEach(currentIgnoreStartsWith => {
+                files = files.filter(currentFile => !currentFile.startsWith(currentIgnoreStartsWith))
+            });
+        }
 
-        let filesJsonString = JSON.stringify(files)
-        let fileNamesJsonString = JSON.stringify(fileNames)
+        const fileNames = files.map(file => path.parse(`${dir}/${file}`).name);
+
+        const filesJsonString = JSON.stringify(files)
+        const fileNamesJsonString = JSON.stringify(fileNames)
 
         core.setOutput('files', filesJsonString);
         core.setOutput('file_names', fileNamesJsonString);

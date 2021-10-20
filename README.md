@@ -17,6 +17,14 @@ This json can be later used for a dynamic build matrix.
 
 **Optional** File extension filter. (e.g., "txt","yml")
 
+## `ignore_files_starts_with`
+
+**Optional** List of values for which files should be ignored. (e.g., "ignore\_,test,config-")
+
+## `ignore_files_starts_with_delimiter`
+
+**Optional** Delimiter for the list. (Default: ",")
+
 ## Outputs
 
 ## `files`
@@ -30,24 +38,27 @@ The list of files names without file extension as json
 ## Usage
 
 ```yaml
-uses: the-coding-turtle/ga-file-list@v0.1
+uses: the-coding-turtle/ga-file-list@v0.2
 ```
 
 Or with optional parameters:
 
 ```yaml
-uses: the-coding-turtle/ga-file-list@v0.1
+uses: the-coding-turtle/ga-file-list@v0.2
 with:
   directory: "configs"
   file_extension: "yml"
+  ignore_files_starts_with: "ignore_;test;config-"
+  ignore_files_starts_with_delimiter: ";"
 ```
 
 ## Matrix Build / Multi-Tenancy for Google AppEngine (My use case)
+
 ```
 name: Multi Tenant GAE Deploy
 
 on:
-  push:  
+  push:
   workflow_dispatch:
 
 jobs:
@@ -63,7 +74,7 @@ jobs:
       with:
         directory: "gae_yaml"
         file_extension: "yaml"
-        
+
   multi_tenant:
     needs: lookup
     runs-on: ubuntu-latest
