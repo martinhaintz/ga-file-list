@@ -17,13 +17,21 @@ This json can be later used for a dynamic build matrix.
 
 **Optional** File extension filter. (e.g., "txt","yml")
 
+## `only_files_starts_with`
+
+**Optional** List of values for which starts with are only used. (e.g., "dev\_,test,config-")
+
+## `only_files_starts_with_delimiter`
+
+**Optional** Delimiter for the only list. (Default: ",")
+
 ## `ignore_files_starts_with`
 
 **Optional** List of values for which files should be ignored. (e.g., "ignore\_,test,config-")
 
 ## `ignore_files_starts_with_delimiter`
 
-**Optional** Delimiter for the list. (Default: ",")
+**Optional** Delimiter for the ignore list. (Default: ",")
 
 ## Outputs
 
