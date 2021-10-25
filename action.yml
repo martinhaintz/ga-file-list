@@ -9,6 +9,14 @@ inputs:
     description: 'file extension filter. (e.g., "txt","yml")'
     required: false
     default: ''
+  only_files_starts_with:
+    description: 'use only files which starts with. list is allowed (e.g., "prod_,dev")'
+    required: false
+    default: ''
+  only_files_starts_with_delimiter:
+    description: 'delimiter for the only files list (default: ",")'
+    required: false
+    default: ','
   ignore_files_starts_with:
     description: 'files start with are ignored. list is allowed (e.g., "ingore_,default")'
     required: false

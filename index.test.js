@@ -97,7 +97,7 @@ test('test get all files in specific directory with specific ending', () => {
   expect(result).not.toContain(fileName2)
 })
 
-it('test ignores files which starts with "ignore" oder "disabled_"', () => {
+test('test ignores files which starts with *ignore* or *disabled_*', () => {
   process.env['INPUT_DIRECTORY'] = testDir;
   process.env['INPUT_IGNORE_FILES_STARTS_WITH'] = "ignore;disabled_";
   process.env['INPUT_IGNORE_FILES_STARTS_WITH_DELIMITER'] = ";";
@@ -113,6 +113,27 @@ it('test ignores files which starts with "ignore" oder "disabled_"', () => {
   expect(result).not.toContain(file4)
 
   expect(result).toContain(fileName1)
+  expect(result).toContain(fileName2)
+  expect(result).not.toContain(fileName3)
+  expect(result).not.toContain(fileName4)
+})
+
+test('test only files which starts with *second*', () => {
+  process.env['INPUT_DIRECTORY'] = testDir;
+  process.env['INPUT_ONLY_FILES_STARTS_WITH'] = "second";
+  process.env['INPUT_ONLY_FILES_STARTS_WITH_DELIMITER'] = ",";
+
+  const result = cp.execSync(`node ${ip}`, { env: process.env }).toString();
+
+  expect(result).toContain(outputFiles)
+  expect(result).toContain(outputFileNames)
+
+  expect(result).not.toContain(file1)
+  expect(result).toContain(file2)
+  expect(result).not.toContain(file3)
+  expect(result).not.toContain(file4)
+
+  expect(result).not.toContain(fileName1)
   expect(result).toContain(fileName2)
   expect(result).not.toContain(fileName3)
   expect(result).not.toContain(fileName4)
