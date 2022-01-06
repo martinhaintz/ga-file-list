@@ -139,3 +139,23 @@ test('test only files which starts with *second*', () => {
   expect(result).not.toContain(fileName4)
 })
 
+test('test only files which starts with *first* or *second*', () => {
+   process.env['INPUT_DIRECTORY'] = testDir;
+   process.env['INPUT_ONLY_FILES_STARTS_WITH'] = "first;second";
+   process.env['INPUT_ONLY_FILES_STARTS_WITH_DELIMITER'] = ";";
+ 
+   const result = cp.execSync(`node ${ip}`, { env: process.env }).toString();
+ 
+   expect(result).toContain(outputFiles)
+   expect(result).toContain(outputFileNames)
+ 
+   expect(result).toContain(file1)
+   expect(result).toContain(file2)
+   expect(result).not.toContain(file3)
+   expect(result).not.toContain(file4)
+ 
+   expect(result).toContain(fileName1)
+   expect(result).toContain(fileName2)
+   expect(result).not.toContain(fileName3)
+   expect(result).not.toContain(fileName4)
+ })
