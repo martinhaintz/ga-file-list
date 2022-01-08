@@ -20,10 +20,12 @@ async function run() {
             files = files.filter(currentFile => currentFile.toLowerCase().endsWith(`.${fileExtension}`))
 
         if (onlyStartsWith) {
+            let onlyStartsFiles = new Array();
             const onlyList = onlyStartsWith.split(onlyStartsWithDelimiter)
             onlyList.forEach(currentOnlyStartsWith => {
-                files = files.filter(currentFile => currentFile.startsWith(currentOnlyStartsWith))
+                onlyStartsFiles = onlyStartsFiles.concat(files.filter(currentFile => currentFile.startsWith(currentOnlyStartsWith)))
             });
+            files = onlyStartsFiles
         }
 
         if (ignoreStartsWith) {
